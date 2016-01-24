@@ -47,9 +47,42 @@ class Deck{
         return $cards;
     }
 }
-$d = new Deck();
-list($carte) = $d->shuffle()->deal(1);
-echo $carte;
+class Player{
+    protected $hand; //sert à stocker les cartes que le joueur possède
+    protected $pseudo;
+    public function __construct($toto){
+        $this->hand = [];
+        $this->pseudo = $toto;
+    }
+    public function take($cards){
+        //TODO : récupère les cartes passées en paramètre
+        //et les place dans $this->hand
+        $cards = $this->hand;
+    }
+    public function getHandValue(){
+        //TODO : compter et returner la somme des valeurs de la main de la personne
+
+        return  $this;
+    }
+}
+class Bank extends Player{
+    public function __construct(){
+        parent::__construct("Banque");
+    }
+}
+//SCENARIO 1
+$deck = new Deck();
+$deck->shuffle();
+$bank = new Bank();
+$bank->take($deck->deal(2)); //tire 2 cartes du deck, la banque les prends
+while( $bank->getHandValue() < 17){
+    $bank->take($deck->deal(1));
+}
+if($bank->getHandValue() > 21){
+    echo "La banque perd";
+}else{
+    echo "La banque a ".$bank->getHandValue();
+}
 /**
  * Created by PhpStorm.
  * User: Wrex
